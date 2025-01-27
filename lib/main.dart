@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:todo_list/core/routes/app_pages.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,16 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      builder: (context, child) {
-        return Scaffold(
-          appBar: AppBar(),
-          body: const Center(
-            child: Text('Hello World'),
-          ),
-        );
-      },
+      initialRoute: '/product',
+      getPages: AppPages.routes,
     );
   }
 }
