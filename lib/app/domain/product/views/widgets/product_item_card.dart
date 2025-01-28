@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:todo_list/app/domain/product/views/widgets/product_item.dart';
+import 'package:todo_list/app/domain/product/models/product_model.dart';
 
 class ProductItemCard extends StatelessWidget {
   const ProductItemCard({
     super.key,
     required this.item,
   });
-  final ProductItem item;
+  final ProductItemRes item;
 
   @override
   Widget build(BuildContext context) {

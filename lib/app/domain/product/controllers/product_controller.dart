@@ -1,6 +1,8 @@
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todo_list/app/domain/product/views/widgets/product_edit_dialog.dart';
+import 'package:todo_list/app/domain/user/models/user_model.dart';
 import 'package:todo_list/core/utils/dummy_data.dart';
 
 class ProductController extends GetxController {
@@ -15,16 +17,39 @@ class ProductController extends GetxController {
         debugPrint('Move $fromGroupId:$fromIndex to $toGroupId:$toIndex'),
   );
 
+  List<AppFlowyGroupData> groupList = [];
+
   @override
   void onInit() {
-    final group1 = DummyData.group1;
-    final group2 = DummyData.group2;
-    final group3 = DummyData.group3;
-    final group4 = DummyData.group4;
-    appFlowyBoardController.addGroup(group1);
-    appFlowyBoardController.addGroup(group2);
-    appFlowyBoardController.addGroup(group3);
-    appFlowyBoardController.addGroup(group4);
+    groupList = DummyData.groupList;
+    for (var group in groupList) {
+      appFlowyBoardController.addGroup(group);
+    }
     super.onInit();
+  }
+
+  void onClickItem(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => const ProductEditDialog(),
+    );
+  }
+
+  void onTapAddButton({
+    required String title,
+    required String content,
+    UserModel? manager,
+  }) {
+    groupList.add(
+      AppFlowyGroupData(
+        id: title,
+        name: title,
+        items: [],
+      ),
+    );
+  }
+
+  void parseGroupData(){
+    
   }
 }

@@ -2,7 +2,7 @@ import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:todo_list/app/domain/product/controllers/product_controller.dart';
-import 'package:todo_list/app/domain/product/views/widgets/product_item.dart';
+import 'package:todo_list/app/domain/product/models/product_model.dart';
 import 'package:todo_list/app/domain/product/views/widgets/product_item_card.dart';
 import 'package:todo_list/core/utils/constants.dart';
 
@@ -13,7 +13,7 @@ class ProductScreen extends GetView<ProductController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo List'),
+        title: const Text('Board'),
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
@@ -42,8 +42,18 @@ class ProductScreen extends GetView<ProductController> {
                 color: Colors.white,
               ),
               child: ProductItemCard(
-                item: item as ProductItem,
+                item: item as ProductItemRes,
               ),
+            );
+          },
+          footerBuilder: (context, groupData) {
+            return AppFlowyGroupFooter(
+              onAddButtonClick: () {
+                controller.onClickItem(context);
+              },
+              icon: const Icon(Icons.add),
+              height: 50,
+              title: const Text('이슈 만들기'),
             );
           },
         ),
