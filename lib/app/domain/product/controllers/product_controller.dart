@@ -21,7 +21,6 @@ class ProductController extends GetxController {
 
   @override
   void onInit() {
-    groupList = DummyData.groupList;
     for (var group in groupList) {
       appFlowyBoardController.addGroup(group);
     }
@@ -47,9 +46,5 @@ class ProductController extends GetxController {
         items: [],
       ),
     );
-  }
-
-  void parseGroupData(){
-    
   }
 }

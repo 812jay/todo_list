@@ -7,7 +7,7 @@ class ProductEditDialog extends StatefulWidget {
     super.key,
     this.product,
   });
-  final ProductRes? product;
+  final ProductItemRes? product;
 
   @override
   State<ProductEditDialog> createState() => _ProductEditDialogState();
@@ -25,7 +25,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
         height: 600,
         child: Column(
           children: [
-            Text(widget.product?.manager.name ?? ''),
+            Text(widget.product?.assignee ?? ''),
             TextFormField(
               initialValue: widget.product?.content ?? '',
             ),

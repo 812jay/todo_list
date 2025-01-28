@@ -6,7 +6,7 @@ class ProductItemCard extends StatelessWidget {
     super.key,
     required this.item,
   });
-  final ProductItemRes item;
+  final ParsedProductItemRes item;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class ProductItemCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                item.manager?.name ?? '',
+                item.assignee ?? '',
               ),
             ],
           ),

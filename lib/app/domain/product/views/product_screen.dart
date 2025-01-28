@@ -35,6 +35,7 @@ class ProductScreen extends GetView<ProductController> {
             );
           },
           cardBuilder: (context, groupData, item) {
+            final newItem = item as ParsedProductItemRes;
             return AppFlowyGroupCard(
               key: ObjectKey(item),
               decoration: BoxDecoration(
@@ -42,7 +43,7 @@ class ProductScreen extends GetView<ProductController> {
                 color: Colors.white,
               ),
               child: ProductItemCard(
-                item: item as ProductItemRes,
+                item: newItem,
               ),
             );
           },

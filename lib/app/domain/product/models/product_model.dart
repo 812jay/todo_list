@@ -1,34 +1,44 @@
 import 'package:appflowy_board/appflowy_board.dart';
-import 'package:todo_list/app/domain/user/models/user_model.dart';
 
 class ProductRes {
+  final String groupTitle;
+  final List<ProductItemRes>? itemList;
+
+  ProductRes({
+    required this.groupTitle,
+    this.itemList,
+  });
+}
+
+class ProductItemRes {
   final String title;
-  final UserModel manager;
+  final String? assignee;
   final String content;
   final DateTime createAt;
   final DateTime updateteAt;
-  ProductRes({
+
+  ProductItemRes({
     required this.title,
-    required this.manager,
+    this.assignee,
     this.content = '',
     required this.createAt,
     required this.updateteAt,
   });
 }
 
-class ProductItemRes extends AppFlowyGroupItem {
-  final String title;
-  final UserModel? manager;
-  final String content;
-  final DateTime createAt;
-  final DateTime updateteAt;
-  ProductItemRes({
+class ParsedProductItemRes extends AppFlowyGroupItem {
+  ParsedProductItemRes({
     required this.title,
-    this.manager,
+    this.assignee,
     this.content = '',
     required this.createAt,
     required this.updateteAt,
   });
+  final String title;
+  final String? assignee;
+  final String content;
+  final DateTime createAt;
+  final DateTime updateteAt;
   @override
   String get id => title;
 }
