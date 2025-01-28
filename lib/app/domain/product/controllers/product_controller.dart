@@ -73,6 +73,4 @@ class ProductController extends GetxController {
     required String content,
     UserModel? manager,
   }) {}
-
-  void parseProduct(ProductRes product) {}
 }

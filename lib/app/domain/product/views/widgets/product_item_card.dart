@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hovering/hovering.dart';
 import 'package:todo_list/app/domain/product/models/product/product.dart';
+import 'package:todo_list/core/utils/constants.dart';
 
 class ProductItemCard extends StatelessWidget {
   const ProductItemCard({
@@ -10,7 +12,8 @@ class ProductItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return HoverContainer(
+      hoverColor: AppColors.productGroupItem,
       padding: const EdgeInsets.all(10),
       width: double.infinity,
       child: Column(

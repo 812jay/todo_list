@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list/app/domain/product/models/product/product.dart';
+import 'package:todo_list/core/utils/constants.dart';
 
 class ProductEditDialog extends StatefulWidget {
   const ProductEditDialog({
@@ -46,7 +47,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
             child: const Text(
               '취소',
               style: TextStyle(
-                color: Colors.white,
+                color: AppColors.cancelButton,
               ),
             ),
           ),
@@ -57,7 +58,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: AppColors.saveButton,
               borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
