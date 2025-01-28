@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todo_list/app/domain/product/models/product_model.dart';
+import 'package:todo_list/app/domain/product/models/product/product.dart';
 
 class ProductEditDialog extends StatefulWidget {
   const ProductEditDialog({

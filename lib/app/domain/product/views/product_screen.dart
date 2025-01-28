@@ -2,7 +2,7 @@ import 'package:appflowy_board/appflowy_board.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:todo_list/app/domain/product/controllers/product_controller.dart';
-import 'package:todo_list/app/domain/product/models/product_model.dart';
+import 'package:todo_list/app/domain/product/models/product/product.dart';
 import 'package:todo_list/app/domain/product/views/widgets/product_item_card.dart';
 import 'package:todo_list/core/utils/constants.dart';
 
