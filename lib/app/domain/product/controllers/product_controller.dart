@@ -5,6 +5,7 @@ import 'package:todo_list/app/domain/product/models/product/product.dart';
 import 'package:todo_list/app/domain/product/services/product_service.dart';
 import 'package:todo_list/app/domain/product/views/widgets/product_edit_dialog.dart';
 import 'package:todo_list/app/domain/user/models/user.dart';
+import 'package:todo_list/core/utils/logger.dart';
 
 class ProductController extends GetxController {
   ProductController(
@@ -63,6 +64,7 @@ class ProductController extends GetxController {
   }
 
   void onTapItem(BuildContext context, {ParsedProductItemRes? item}) {
+    AppLogger.debug('onTapItem: $item');
     showDialog(
       context: context,
       builder: (context) => ProductEditDialog(
