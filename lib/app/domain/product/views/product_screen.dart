@@ -54,7 +54,7 @@ class ProductScreen extends GetView<ProductController> {
               },
               icon: const Icon(Icons.add),
               height: 50,
-              title: const Text('이슈 만들기'),
+              title: const Text('이슈 추가'),
             );
           },
         ),
