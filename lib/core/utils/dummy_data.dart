@@ -8,9 +8,6 @@ class DummyData {
         {
           "groupTitle": "할 일",
           "title": "새로운 블로그 글 작성",
-          "assignee": {
-            "name": "김철수",
-          },
           "content":
               "다음 주에 발행할 블로그 글 주제를 정하고, 키워드 분석을 통해 SEO에 적합한 콘텐츠를 기획한 후 초안을 작성합니다. 또한 이미지나 그래프 등 시각 자료에 대한 아이디어를 포함시킬 예정입니다.",
           "createdAt": Timestamp.now(),

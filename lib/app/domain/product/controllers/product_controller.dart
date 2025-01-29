@@ -63,12 +63,17 @@ class ProductController extends GetxController {
     ) as AppFlowyGroupItem;
   }
 
-  void onTapItem(BuildContext context, {ParsedProductItemRes? item}) {
-    AppLogger.debug('onTapItem: $item');
+  void onTapItem(
+    BuildContext context, {
+    ParsedProductItemRes? item,
+    String? groupTitle,
+  }) {
+    AppLogger.debug(groupTitle);
     showDialog(
       context: context,
       builder: (context) => ProductEditDialog(
         productItem: item,
+        groupTitle: groupTitle,
       ),
     );
   }

@@ -6,4 +6,5 @@ class AppColors {
   static const productGroupItem = Color(0XFFEEEDEB);
   static const cancelButton = Color(0XFFEEEEEE);
   static const saveButton = Color(0XFF295F98);
+  static const avatarBackgroud = Color(0XFF686D76);
 }

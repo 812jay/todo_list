@@ -51,7 +51,10 @@ class ProductScreen extends GetView<ProductController> {
           footerBuilder: (context, groupData) {
             return AppFlowyGroupFooter(
               onAddButtonClick: () {
-                controller.onTapItem(context);
+                controller.onTapItem(
+                  context,
+                  groupTitle: groupData.id,
+                );
               },
               icon: const Icon(Icons.add),
               height: 50,
