@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:todo_list/app/domain/product/models/product/product.dart';
 import 'package:todo_list/app/domain/product/services/product_service.dart';
 import 'package:todo_list/app/domain/product/views/widgets/product_edit_dialog.dart';
-import 'package:todo_list/app/domain/user/models/user.dart';
 import 'package:todo_list/core/utils/logger.dart';
 
 class ProductController extends GetxController {
@@ -76,24 +75,5 @@ class ProductController extends GetxController {
         groupTitle: groupTitle,
       ),
     );
-  }
-
-  void onTapAddButton({
-    required String groupTitle,
-    required String title,
-    required String content,
-    UserRes? asignee,
-  }) {
-    // appFlowyBoardController.addGroupItem(
-    //   groupTitle,
-    //   ParsedProductItemRes(
-    //     groupTitle: groupTitle,
-    //     title: title,
-    //     content: content,
-    //     assignee: asignee,
-    //     createdAt: DateTime.now(),
-    //     updatedAt: DateTime.now(),
-    //   ),
-    // );
   }
 }

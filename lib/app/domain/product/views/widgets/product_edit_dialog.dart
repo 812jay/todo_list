@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:todo_list/app/domain/product/models/product/product.dart';
 import 'package:todo_list/app/domain/user/models/user.dart';
 import 'package:todo_list/core/utils/component/base_text_field.dart';
+import 'package:todo_list/core/utils/component/dialog_button.dart';
 import 'package:todo_list/core/utils/component/user_avatar.dart';
 import 'package:todo_list/core/utils/constants.dart';
 
@@ -97,41 +98,17 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
         ),
       ),
       actions: [
-        GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-            child: const Text(
-              '취소',
-              style: TextStyle(
-                color: AppColors.cancelButton,
-              ),
-            ),
-          ),
+        DialogButton(
+          text: '취소',
+          backgroundColor: AppColors.cancelButtonBackground,
+          fontColor: AppColors.cancelButtonFont,
+          onTap: () => Get.back(),
         ),
-        GestureDetector(
-          onTap: () {
-            Get.back();
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.saveButton,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
-            child: const Text(
-              '저장',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
+        DialogButton(
+          text: '저장',
+          backgroundColor: AppColors.saveButtonBackground,
+          fontColor: AppColors.saveButtonFont,
+          onTap: () => Get.back(),
         ),
       ],
     );
