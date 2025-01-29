@@ -9,17 +9,21 @@ class UserAvatar extends StatelessWidget {
     super.key,
     this.user,
     this.isShowText,
+    this.size,
+    this.fontSize,
   });
   final UserRes? user;
   final bool? isShowText;
+  final double? size;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         SizedBox(
-          width: 30,
-          height: 30,
+          width: size ?? 30,
+          height: size ?? 30,
           child: CircularProfileAvatar(
             '',
             imageFit: BoxFit.contain,
@@ -35,21 +39,20 @@ class UserAvatar extends StatelessWidget {
                         color: Colors.white,
                       ),
                     )
-                  : const AssetIcon(
+                  : AssetIcon(
                       'svgs/user.svg',
-                      size: 20,
+                      size: size != null ? (size! * 0.66) : 20,
                       color: Colors.white,
                     ),
             ),
           ),
         ),
-        const SizedBox(width: 7),
+        const SizedBox(width: 5),
         isShowText == true
             ? Text(
                 user?.name ?? '담당자 없음',
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+                style: TextStyle(
+                  fontSize: fontSize ?? 15,
                 ),
               )
             : const SizedBox.shrink(),

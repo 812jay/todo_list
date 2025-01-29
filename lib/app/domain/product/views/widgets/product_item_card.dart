@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hovering/hovering.dart';
 import 'package:todo_list/app/domain/product/models/product/product.dart';
+import 'package:todo_list/core/utils/component/user_avatar.dart';
 import 'package:todo_list/core/utils/constants.dart';
 
 class ProductItemCard extends StatelessWidget {
@@ -26,11 +27,15 @@ class ProductItemCard extends StatelessWidget {
             Text(
               item.title,
             ),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  item.assignee?.name ?? '',
+                UserAvatar(
+                  user: item.assignee,
+                  size: 20,
+                  isShowText: true,
+                  fontSize: 13,
                 ),
               ],
             ),

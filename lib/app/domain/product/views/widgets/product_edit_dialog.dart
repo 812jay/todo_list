@@ -49,36 +49,20 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: BaseTextField(
-        controller: titleController,
-        title: '제목',
-        hintText: '제목을 입력해 주세요.',
-        isRequired: true,
-        maxLines: 1,
-      ),
       content: SizedBox(
         width: context.width,
-        height: context.height * 0.5,
+        height: context.height * 0.6,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '그룹',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
+            BaseTextField(
+              controller: titleController,
+              title: '제목',
+              hintText: '제목을 입력해 주세요.',
+              isRequired: true,
+              maxLines: 1,
             ),
             const SizedBox(height: 10),
-            Text(
-              widget.groupTitle != null
-                  ? widget.groupTitle!
-                  : widget.productItem?.groupTitle ?? '',
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
             const SizedBox(height: 10),
             const Text(
               '담당자',
