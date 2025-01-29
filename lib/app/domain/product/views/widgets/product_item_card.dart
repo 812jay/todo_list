@@ -28,16 +28,27 @@ class ProductItemCard extends StatelessWidget {
               item.title,
             ),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                UserAvatar(
-                  user: item.assignee,
-                  size: 20,
-                  isShowText: true,
-                  fontSize: 13,
-                ),
-              ],
+            SizedBox(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  UserAvatar(
+                    user: item.assignee,
+                    size: 20,
+                    isShowText: true,
+                    fontSize: 13,
+                  ),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Text(
+                      item.assignee?.name ?? '담당자 없음',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

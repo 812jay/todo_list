@@ -19,44 +19,31 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: size ?? 30,
-          height: size ?? 30,
-          child: CircularProfileAvatar(
-            '',
-            imageFit: BoxFit.contain,
-            backgroundColor: AppColors.avatarBackgroud,
-            elevation: 1.2,
-            child: Center(
-              child: user != null
-                  ? Text(
-                      user!.name.split('')[0],
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    )
-                  : AssetIcon(
-                      'svgs/user.svg',
-                      size: size != null ? (size! * 0.66) : 20,
-                      color: Colors.white,
-                    ),
-            ),
-          ),
-        ),
-        const SizedBox(width: 5),
-        isShowText == true
-            ? Text(
-                user?.name ?? '담당자 없음',
-                style: TextStyle(
-                  fontSize: fontSize ?? 15,
+    return SizedBox(
+      width: size ?? 30,
+      height: size ?? 30,
+      child: CircularProfileAvatar(
+        '',
+        imageFit: BoxFit.contain,
+        backgroundColor: AppColors.avatarBackgroud,
+        elevation: 1.2,
+        child: Center(
+          child: user != null
+              ? Text(
+                  user!.name.split('')[0],
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                )
+              : AssetIcon(
+                  'svgs/user.svg',
+                  size: size != null ? (size! * 0.66) : 20,
+                  color: Colors.white,
                 ),
-              )
-            : const SizedBox.shrink(),
-      ],
+        ),
+      ),
     );
   }
 }
