@@ -1,6 +1,7 @@
 import 'package:appflowy_board/appflowy_board.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:todo_list/app/domain/user/models/user.dart';
 import 'package:todo_list/core/utils/helper/datetime_helper.dart';
 import 'package:uuid/uuid.dart';
 
@@ -21,8 +22,9 @@ class ProductRes with _$ProductRes {
 @freezed
 class ProductItemRes with _$ProductItemRes {
   const factory ProductItemRes({
+    required String groupTitle,
     required String title,
-    String? assignee,
+    UserRes? assignee,
     String? content,
     @TimestampConverter() required DateTime createdAt,
     @TimestampConverter() required DateTime updatedAt,
@@ -34,6 +36,7 @@ class ProductItemRes with _$ProductItemRes {
 
 class ParsedProductItemRes extends AppFlowyGroupItem {
   ParsedProductItemRes({
+    required this.groupTitle,
     required this.title,
     this.assignee,
     this.content,
@@ -41,8 +44,9 @@ class ParsedProductItemRes extends AppFlowyGroupItem {
     required this.updatedAt,
   }) : _id = const Uuid().v4();
 
+  final String groupTitle;
   final String title;
-  final String? assignee;
+  final UserRes? assignee;
   final String? content;
   final DateTime createdAt;
   final DateTime updatedAt;

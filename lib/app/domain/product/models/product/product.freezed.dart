@@ -185,8 +185,9 @@ ProductItemRes _$ProductItemResFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ProductItemRes {
+  String get groupTitle => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  String? get assignee => throw _privateConstructorUsedError;
+  UserRes? get assignee => throw _privateConstructorUsedError;
   String? get content => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -206,11 +207,14 @@ abstract class $ProductItemResCopyWith<$Res> {
       _$ProductItemResCopyWithImpl<$Res, ProductItemRes>;
   @useResult
   $Res call(
-      {String title,
-      String? assignee,
+      {String groupTitle,
+      String title,
+      UserRes? assignee,
       String? content,
       @TimestampConverter() DateTime createdAt,
       @TimestampConverter() DateTime updatedAt});
+
+  $UserResCopyWith<$Res>? get assignee;
 }
 
 /// @nodoc
@@ -226,6 +230,7 @@ class _$ProductItemResCopyWithImpl<$Res, $Val extends ProductItemRes>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? groupTitle = null,
     Object? title = null,
     Object? assignee = freezed,
     Object? content = freezed,
@@ -233,6 +238,10 @@ class _$ProductItemResCopyWithImpl<$Res, $Val extends ProductItemRes>
     Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
+      groupTitle: null == groupTitle
+          ? _value.groupTitle
+          : groupTitle // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -240,7 +249,7 @@ class _$ProductItemResCopyWithImpl<$Res, $Val extends ProductItemRes>
       assignee: freezed == assignee
           ? _value.assignee
           : assignee // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as UserRes?,
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -255,6 +264,18 @@ class _$ProductItemResCopyWithImpl<$Res, $Val extends ProductItemRes>
               as DateTime,
     ) as $Val);
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserResCopyWith<$Res>? get assignee {
+    if (_value.assignee == null) {
+      return null;
+    }
+
+    return $UserResCopyWith<$Res>(_value.assignee!, (value) {
+      return _then(_value.copyWith(assignee: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -266,11 +287,15 @@ abstract class _$$ProductItemResImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String title,
-      String? assignee,
+      {String groupTitle,
+      String title,
+      UserRes? assignee,
       String? content,
       @TimestampConverter() DateTime createdAt,
       @TimestampConverter() DateTime updatedAt});
+
+  @override
+  $UserResCopyWith<$Res>? get assignee;
 }
 
 /// @nodoc
@@ -284,6 +309,7 @@ class __$$ProductItemResImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? groupTitle = null,
     Object? title = null,
     Object? assignee = freezed,
     Object? content = freezed,
@@ -291,6 +317,10 @@ class __$$ProductItemResImplCopyWithImpl<$Res>
     Object? updatedAt = null,
   }) {
     return _then(_$ProductItemResImpl(
+      groupTitle: null == groupTitle
+          ? _value.groupTitle
+          : groupTitle // ignore: cast_nullable_to_non_nullable
+              as String,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -298,7 +328,7 @@ class __$$ProductItemResImplCopyWithImpl<$Res>
       assignee: freezed == assignee
           ? _value.assignee
           : assignee // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as UserRes?,
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
@@ -319,7 +349,8 @@ class __$$ProductItemResImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ProductItemResImpl implements _ProductItemRes {
   const _$ProductItemResImpl(
-      {required this.title,
+      {required this.groupTitle,
+      required this.title,
       this.assignee,
       this.content,
       @TimestampConverter() required this.createdAt,
@@ -329,9 +360,11 @@ class _$ProductItemResImpl implements _ProductItemRes {
       _$$ProductItemResImplFromJson(json);
 
   @override
+  final String groupTitle;
+  @override
   final String title;
   @override
-  final String? assignee;
+  final UserRes? assignee;
   @override
   final String? content;
   @override
@@ -343,7 +376,7 @@ class _$ProductItemResImpl implements _ProductItemRes {
 
   @override
   String toString() {
-    return 'ProductItemRes(title: $title, assignee: $assignee, content: $content, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'ProductItemRes(groupTitle: $groupTitle, title: $title, assignee: $assignee, content: $content, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -351,6 +384,8 @@ class _$ProductItemResImpl implements _ProductItemRes {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProductItemResImpl &&
+            (identical(other.groupTitle, groupTitle) ||
+                other.groupTitle == groupTitle) &&
             (identical(other.title, title) || other.title == title) &&
             (identical(other.assignee, assignee) ||
                 other.assignee == assignee) &&
@@ -363,8 +398,8 @@ class _$ProductItemResImpl implements _ProductItemRes {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, title, assignee, content, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType, groupTitle, title, assignee, content, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -383,8 +418,9 @@ class _$ProductItemResImpl implements _ProductItemRes {
 
 abstract class _ProductItemRes implements ProductItemRes {
   const factory _ProductItemRes(
-          {required final String title,
-          final String? assignee,
+          {required final String groupTitle,
+          required final String title,
+          final UserRes? assignee,
           final String? content,
           @TimestampConverter() required final DateTime createdAt,
           @TimestampConverter() required final DateTime updatedAt}) =
@@ -394,9 +430,11 @@ abstract class _ProductItemRes implements ProductItemRes {
       _$ProductItemResImpl.fromJson;
 
   @override
+  String get groupTitle;
+  @override
   String get title;
   @override
-  String? get assignee;
+  UserRes? get assignee;
   @override
   String? get content;
   @override

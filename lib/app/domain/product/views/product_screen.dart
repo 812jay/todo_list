@@ -44,13 +44,14 @@ class ProductScreen extends GetView<ProductController> {
               ),
               child: ProductItemCard(
                 item: newItem,
+                onTap: () => controller.onTapItem(context, item: item),
               ),
             );
           },
           footerBuilder: (context, groupData) {
             return AppFlowyGroupFooter(
               onAddButtonClick: () {
-                controller.onClickItem(context);
+                controller.onTapItem(context);
               },
               icon: const Icon(Icons.add),
               height: 50,

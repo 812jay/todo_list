@@ -5,7 +5,7 @@ import 'package:todo_list/core/utils/dummy_data.dart';
 class ProductService extends GetxService {
   Future<List<ProductRes>> fetchProductList() async {
     List<ProductRes> result = [];
-    final groupData = DummyData.groupList;
+    final groupData = DummyData.productList;
     for (var group in groupData) {
       result = [...result, ProductRes.fromJson(group)];
     }

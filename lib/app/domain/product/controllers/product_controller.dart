@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:todo_list/app/domain/product/models/product/product.dart';
 import 'package:todo_list/app/domain/product/services/product_service.dart';
 import 'package:todo_list/app/domain/product/views/widgets/product_edit_dialog.dart';
-import 'package:todo_list/app/domain/user/models/user_model.dart';
+import 'package:todo_list/app/domain/user/models/user.dart';
 
 class ProductController extends GetxController {
   ProductController(
@@ -53,6 +53,7 @@ class ProductController extends GetxController {
 
   AppFlowyGroupItem parsedProductItem(ProductItemRes productItem) {
     return ParsedProductItemRes(
+      groupTitle: productItem.groupTitle,
       title: productItem.title,
       assignee: productItem.assignee,
       content: productItem.content,
@@ -61,16 +62,31 @@ class ProductController extends GetxController {
     ) as AppFlowyGroupItem;
   }
 
-  void onClickItem(BuildContext context) {
+  void onTapItem(BuildContext context, {ParsedProductItemRes? item}) {
     showDialog(
       context: context,
-      builder: (context) => const ProductEditDialog(),
+      builder: (context) => ProductEditDialog(
+        productItem: item,
+      ),
     );
   }
 
   void onTapAddButton({
+    required String groupTitle,
     required String title,
     required String content,
-    UserModel? manager,
-  }) {}
+    UserRes? asignee,
+  }) {
+    // appFlowyBoardController.addGroupItem(
+    //   groupTitle,
+    //   ParsedProductItemRes(
+    //     groupTitle: groupTitle,
+    //     title: title,
+    //     content: content,
+    //     assignee: asignee,
+    //     createdAt: DateTime.now(),
+    //     updatedAt: DateTime.now(),
+    //   ),
+    // );
+  }
 }

@@ -7,30 +7,35 @@ class ProductItemCard extends StatelessWidget {
   const ProductItemCard({
     super.key,
     required this.item,
+    required this.onTap,
   });
   final ParsedProductItemRes item;
+  final GestureTapCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return HoverContainer(
-      hoverColor: AppColors.productGroupItem,
-      padding: const EdgeInsets.all(10),
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            item.title,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(
-                item.assignee ?? '',
-              ),
-            ],
-          ),
-        ],
+    return GestureDetector(
+      onTap: onTap,
+      child: HoverContainer(
+        hoverColor: AppColors.productGroupItem,
+        padding: const EdgeInsets.all(10),
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              item.title,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  item.assignee?.name ?? '',
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

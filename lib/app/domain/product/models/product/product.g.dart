@@ -22,8 +22,11 @@ Map<String, dynamic> _$$ProductResImplToJson(_$ProductResImpl instance) =>
 
 _$ProductItemResImpl _$$ProductItemResImplFromJson(Map<String, dynamic> json) =>
     _$ProductItemResImpl(
+      groupTitle: json['groupTitle'] as String,
       title: json['title'] as String,
-      assignee: json['assignee'] as String?,
+      assignee: json['assignee'] == null
+          ? null
+          : UserRes.fromJson(json['assignee'] as Map<String, dynamic>),
       content: json['content'] as String?,
       createdAt:
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
@@ -34,6 +37,7 @@ _$ProductItemResImpl _$$ProductItemResImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$ProductItemResImplToJson(
         _$ProductItemResImpl instance) =>
     <String, dynamic>{
+      'groupTitle': instance.groupTitle,
       'title': instance.title,
       'assignee': instance.assignee,
       'content': instance.content,
