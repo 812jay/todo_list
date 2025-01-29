@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list/app/domain/product/models/product/product.dart';
@@ -13,16 +14,19 @@ class ProductEditDialog extends StatefulWidget {
     this.groupTitle,
     this.productItem,
     this.onTapAddButton,
+    this.userList = const [],
   });
   final String? groupTitle;
   final ParsedProductItemRes? productItem;
   final Function(String, String, String, UserRes?)? onTapAddButton;
+  final List<UserRes> userList;
 
   @override
   State<ProductEditDialog> createState() => _ProductEditDialogState();
 }
 
 class _ProductEditDialogState extends State<ProductEditDialog> {
+  final dropDownKey = GlobalKey<DropdownSearchState>();
   late final TextEditingController titleController;
   late final TextEditingController contentController;
 
@@ -84,7 +88,23 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
               ),
             ),
             const SizedBox(height: 10),
-            UserAvatar(user: widget.productItem?.assignee),
+            DropdownSearch<UserRes>(
+              key: dropDownKey,
+              selectedItem: widget.productItem?.assignee,
+              items: widget.userList,
+              itemAsString: (UserRes? user) => user?.name ?? '',
+              dropdownBuilder: (context, selectedItem) {
+                return Row(
+                  children: [
+                    UserAvatar(user: selectedItem),
+                    const SizedBox(width: 8),
+                    Text(
+                      selectedItem?.name ?? '담당자 없음',
+                    ),
+                  ],
+                );
+              },
+            ),
             const SizedBox(height: 10),
             SingleChildScrollView(
               child: BaseTextField(

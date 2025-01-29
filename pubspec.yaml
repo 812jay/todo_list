@@ -45,6 +45,7 @@ dependencies:
   logger: ^2.5.0
   circular_profile_avatar: ^2.0.5
   flutter_svg: ^2.0.17
+  dropdown_search: ^5.0.6
 
 dev_dependencies:
   flutter_test:

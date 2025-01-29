@@ -4,13 +4,18 @@ import 'package:get/get.dart';
 import 'package:todo_list/app/domain/product/models/product/product.dart';
 import 'package:todo_list/app/domain/product/services/product_service.dart';
 import 'package:todo_list/app/domain/product/views/widgets/product_edit_dialog.dart';
+import 'package:todo_list/app/domain/user/models/user.dart';
+import 'package:todo_list/app/domain/user/services/user_services.dart';
 import 'package:todo_list/core/utils/logger.dart';
 
 class ProductController extends GetxController {
   ProductController(
     this.productService,
+    this.userService,
   );
   final ProductService productService;
+  final UserService userService;
+  List<UserRes> userList = [];
 
   final AppFlowyBoardController appFlowyBoardController =
       AppFlowyBoardController(
@@ -25,6 +30,7 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     fetchProductList();
+    fetchUserList();
     super.onInit();
   }
 
@@ -62,6 +68,11 @@ class ProductController extends GetxController {
     ) as AppFlowyGroupItem;
   }
 
+  Future<void> fetchUserList() async {
+    final List<UserRes> userListData = await userService.fetchUserList();
+    userList = userListData;
+  }
+
   void onTapItem(
     BuildContext context, {
     ParsedProductItemRes? item,
@@ -73,6 +84,7 @@ class ProductController extends GetxController {
       builder: (context) => ProductEditDialog(
         productItem: item,
         groupTitle: groupTitle,
+        userList: userList,
       ),
     );
   }

@@ -97,4 +97,25 @@ class DummyData {
       ]
     },
   ];
+
+  static List<Map<String, dynamic>> userList = [
+    {
+      "name": "박영희",
+    },
+    {
+      "name": "최민호",
+    },
+    {
+      "name": "이서연",
+    },
+    {
+      "name": "김지훈",
+    },
+    {
+      "name": "홍길동",
+    },
+    {
+      "name": "이은지",
+    },
+  ];
 }

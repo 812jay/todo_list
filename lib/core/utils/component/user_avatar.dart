@@ -8,8 +8,10 @@ class UserAvatar extends StatelessWidget {
   const UserAvatar({
     super.key,
     this.user,
+    this.isShowText,
   });
   final UserRes? user;
+  final bool? isShowText;
 
   @override
   Widget build(BuildContext context) {
@@ -42,13 +44,15 @@ class UserAvatar extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 7),
-        Text(
-          user?.name ?? '담당자 없음',
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        isShowText == true
+            ? Text(
+                user?.name ?? '담당자 없음',
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }
