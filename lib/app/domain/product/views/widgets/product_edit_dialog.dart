@@ -50,8 +50,6 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: SizedBox(
-        width: context.width,
-        height: context.height * 0.6,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -62,8 +60,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
               isRequired: true,
               maxLines: 1,
             ),
-            const SizedBox(height: 10),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             const Text(
               '담당자',
               style: TextStyle(
@@ -72,11 +69,32 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
               ),
             ),
             const SizedBox(height: 10),
-            DropdownSearch<UserRes>(
+            DropdownSearch<UserRes?>(
               key: dropDownKey,
               selectedItem: widget.productItem?.assignee,
-              items: widget.userList,
-              itemAsString: (UserRes? user) => user?.name ?? '',
+              items: {
+                widget.productItem?.assignee,
+                null,
+                ...widget.userList.where(
+                    (user) => user.name != widget.productItem?.assignee?.name),
+              }.toList(),
+              itemAsString: (UserRes? user) => user?.name ?? '담당자 없음',
+              popupProps: PopupProps.menu(
+                itemBuilder: (context, item, isSelected) {
+                  return Container(
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      children: [
+                        UserAvatar(user: item),
+                        const SizedBox(width: 8),
+                        Text(
+                          item?.name ?? '담당자 없음',
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
               dropdownBuilder: (context, selectedItem) {
                 return Row(
                   children: [
@@ -89,7 +107,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
                 );
               },
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             SingleChildScrollView(
               child: BaseTextField(
                 controller: contentController,
