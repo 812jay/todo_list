@@ -140,8 +140,12 @@ class ProductController extends GetxController {
     String groupId,
     String itemId,
   ) {
-    appFlowyBoardController.removeGroupItem(
+    final currentGroup = findCurrentGroup(
+      itemId,
       groupId,
+    );
+    appFlowyBoardController.removeGroupItem(
+      currentGroup.id,
       itemId,
     );
   }
