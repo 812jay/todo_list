@@ -49,74 +49,78 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: SizedBox(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BaseTextField(
-              controller: titleController,
-              title: '제목',
-              hintText: '제목을 입력해 주세요.',
-              isRequired: true,
-              maxLines: 1,
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              '담당자',
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
+      content: SingleChildScrollView(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BaseTextField(
+                controller: titleController,
+                title: '제목',
+                hintText: '제목을 입력해 주세요.',
+                isRequired: true,
+                maxLines: 1,
               ),
-            ),
-            const SizedBox(height: 10),
-            DropdownSearch<UserRes?>(
-              key: dropDownKey,
-              selectedItem: widget.productItem?.assignee,
-              items: {
-                widget.productItem?.assignee,
-                null,
-                ...widget.userList.where(
-                    (user) => user.name != widget.productItem?.assignee?.name),
-              }.toList(),
-              itemAsString: (UserRes? user) => user?.name ?? '담당자 없음',
-              popupProps: PopupProps.menu(
-                itemBuilder: (context, item, isSelected) {
-                  return Container(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        UserAvatar(user: item),
-                        const SizedBox(width: 8),
-                        Text(
-                          item?.name ?? '담당자 없음',
-                        ),
-                      ],
-                    ),
+              const SizedBox(height: 20),
+              const Text(
+                '담당자',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 10),
+              DropdownSearch<UserRes?>(
+                key: dropDownKey,
+                selectedItem: widget.productItem?.assignee,
+                items: {
+                  widget.productItem?.assignee,
+                  null,
+                  ...widget.userList.where((user) =>
+                      user.name != widget.productItem?.assignee?.name),
+                }.toList(),
+                itemAsString: (UserRes? user) => user?.name ?? '담당자 없음',
+                popupProps: PopupProps.menu(
+                  itemBuilder: (context, item, isSelected) {
+                    return Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        children: [
+                          UserAvatar(user: item),
+                          const SizedBox(width: 8),
+                          Text(
+                            item?.name ?? '담당자 없음',
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+                dropdownBuilder: (context, selectedItem) {
+                  return Row(
+                    children: [
+                      UserAvatar(user: selectedItem),
+                      const SizedBox(width: 8),
+                      Text(
+                        selectedItem?.name ?? '담당자 없음',
+                      ),
+                    ],
                   );
                 },
               ),
-              dropdownBuilder: (context, selectedItem) {
-                return Row(
-                  children: [
-                    UserAvatar(user: selectedItem),
-                    const SizedBox(width: 8),
-                    Text(
-                      selectedItem?.name ?? '담당자 없음',
-                    ),
-                  ],
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            SingleChildScrollView(
-              child: BaseTextField(
-                controller: contentController,
-                title: '설명',
-                hintText: '설명을 입력해 주세요.',
-                maxLines: 10,
+              const SizedBox(height: 20),
+              SingleChildScrollView(
+                child: BaseTextField(
+                  controller: contentController,
+                  title: '설명',
+                  hintText: '설명을 입력해 주세요.',
+                  maxLines: 10,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       actions: [
