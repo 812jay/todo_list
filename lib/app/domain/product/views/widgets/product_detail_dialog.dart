@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_list/app/domain/product/models/product/product.dart';
 import 'package:todo_list/app/domain/user/models/user.dart';
 import 'package:todo_list/core/utils/component/base_text_field.dart';
@@ -78,6 +79,8 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
             _buildAssigneeSection(),
             const SizedBox(height: 20),
             _buildDescriptionField(),
+            const SizedBox(height: 20),
+            if (widget.productItem != null) _buildDateSection(),
           ],
         ),
       ),
@@ -92,6 +95,31 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
       hintText: '제목을 입력해 주세요.',
       isRequired: true,
       maxLines: 1,
+    );
+  }
+
+  //작성일, 수정일 표기 섹션
+  Widget _buildDateSection() {
+    // 날짜 포맷 설정
+    final dateFormat = DateFormat('yyyy.MM.dd HH시mm분');
+    // 수정일 가져오기
+    final updatedAt = widget.productItem?.updatedAt ?? DateTime.now();
+    return RichText(
+      text: TextSpan(
+        style: const TextStyle(
+          fontSize: 13,
+          color: AppColors.deactivateFront,
+        ),
+        children: [
+          const TextSpan(
+            text: '마지막 수정일자 : ',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          TextSpan(
+            text: dateFormat.format(updatedAt),
+          ),
+        ],
+      ),
     );
   }
 
@@ -184,7 +212,6 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
     );
   }
 
-  // 삭제 버튼
   Widget _buildDeleteButton() {
     return DialogButton(
       text: '삭제',
@@ -195,7 +222,6 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
     );
   }
 
-  // 취소 버튼
   Widget _buildCancelButton() {
     return DialogButton(
       text: '취소',
@@ -205,7 +231,6 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
     );
   }
 
-  // 저장 버튼
   Widget _buildSaveButton() {
     return DialogButton(
       text: '저장',
@@ -215,7 +240,6 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
     );
   }
 
-  // 삭제 처리
   void _handleDelete() {
     widget.onTapDeleteButton?.call(
       groupId: widget.productItem!.groupTitle,
@@ -224,7 +248,6 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
     Get.back();
   }
 
-  // 저장 처리
   void _handleSave() {
     widget.onTapAddButton?.call(
       ParsedProductItemRes(
@@ -234,7 +257,7 @@ class _ProductDetailDialogState extends State<ProductDetailDialog> {
         title: titleController.text,
         assignee: selectedUser,
         content: contentController.text,
-        createdAt: DateTime.now(),
+        createdAt: widget.productItem?.createdAt ?? DateTime.now(),
         updatedAt: DateTime.now(),
       ),
     );

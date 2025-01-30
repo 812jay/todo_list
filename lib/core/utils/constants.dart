@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 //색상
 class AppColors {
+  static const deactivateFront = Color(0XFF808080);
   static const productGroup = Color(0XFFF7F8F9);
   static const productGroupItem = Color(0XFFEEEDEB);
   static const cancelButtonBackground = Color(0XFFB0B0B0);
