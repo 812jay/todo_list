@@ -7,6 +7,7 @@ import 'package:todo_list/core/utils/component/base_text_field.dart';
 import 'package:todo_list/core/utils/component/dialog_button.dart';
 import 'package:todo_list/core/utils/component/user_avatar.dart';
 import 'package:todo_list/core/utils/constants.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductEditDialog extends StatefulWidget {
   const ProductEditDialog({
@@ -18,7 +19,9 @@ class ProductEditDialog extends StatefulWidget {
   });
   final String? groupTitle;
   final ParsedProductItemRes? productItem;
-  final Function(String, String, String, UserRes?)? onTapAddButton;
+  final void Function(
+    ParsedProductItemRes productItem,
+  )? onTapAddButton;
   final List<UserRes> userList;
 
   @override
@@ -29,6 +32,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
   final dropDownKey = GlobalKey<DropdownSearchState>();
   late final TextEditingController titleController;
   late final TextEditingController contentController;
+  UserRes? selectedUser;
 
   @override
   void initState() {
@@ -37,6 +41,7 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
         TextEditingController(text: widget.productItem?.title ?? '');
     contentController =
         TextEditingController(text: widget.productItem?.content ?? '');
+    selectedUser = widget.productItem?.assignee;
   }
 
   @override
@@ -74,13 +79,16 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
               const SizedBox(height: 10),
               DropdownSearch<UserRes?>(
                 key: dropDownKey,
-                selectedItem: widget.productItem?.assignee,
+                selectedItem: selectedUser,
                 items: {
-                  widget.productItem?.assignee,
+                  selectedUser,
                   null,
-                  ...widget.userList.where((user) =>
-                      user.name != widget.productItem?.assignee?.name),
+                  ...widget.userList
+                      .where((user) => user.name != selectedUser?.name),
                 }.toList(),
+                onChanged: (value) {
+                  selectedUser = value;
+                },
                 itemAsString: (UserRes? user) => user?.name ?? '담당자 없음',
                 popupProps: PopupProps.menu(
                   itemBuilder: (context, item, isSelected) {
@@ -134,7 +142,22 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
           text: '저장',
           backgroundColor: AppColors.saveButtonBackground,
           fontColor: AppColors.saveButtonFont,
-          onTap: () => Get.back(),
+          onTap: () {
+            widget.onTapAddButton?.call(
+              ParsedProductItemRes(
+                itemId: widget.productItem?.id ?? const Uuid().v4(),
+                groupTitle: widget.groupTitle ??
+                    widget.productItem?.groupTitle ??
+                    '할 일',
+                title: titleController.text,
+                assignee: selectedUser,
+                content: contentController.text,
+                createdAt: DateTime.now(),
+                updatedAt: DateTime.now(),
+              ),
+            );
+            Get.back();
+          },
         ),
       ],
     );

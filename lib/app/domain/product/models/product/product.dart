@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:todo_list/app/domain/user/models/user.dart';
 import 'package:todo_list/core/utils/helper/datetime_helper.dart';
-import 'package:uuid/uuid.dart';
 
 part 'product.freezed.dart';
 part 'product.g.dart';
@@ -37,12 +36,13 @@ class ProductItemRes with _$ProductItemRes {
 class ParsedProductItemRes extends AppFlowyGroupItem {
   ParsedProductItemRes({
     required this.groupTitle,
+    required this.itemId,
     required this.title,
     this.assignee,
     this.content,
     required this.createdAt,
     required this.updatedAt,
-  }) : _id = const Uuid().v4();
+  });
 
   final String groupTitle;
   final String title;
@@ -51,8 +51,8 @@ class ParsedProductItemRes extends AppFlowyGroupItem {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  final String _id; // 내부에서 유니크 ID 저장
+  final String itemId; // 내부에서 유니크 ID 저장
 
   @override
-  String get id => _id;
+  String get id => itemId;
 }

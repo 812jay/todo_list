@@ -6,7 +6,7 @@ import 'package:todo_list/app/domain/product/services/product_service.dart';
 import 'package:todo_list/app/domain/product/views/widgets/product_edit_dialog.dart';
 import 'package:todo_list/app/domain/user/models/user.dart';
 import 'package:todo_list/app/domain/user/services/user_services.dart';
-import 'package:todo_list/core/utils/logger.dart';
+import 'package:uuid/uuid.dart';
 
 class ProductController extends GetxController {
   ProductController(
@@ -58,8 +58,10 @@ class ProductController extends GetxController {
   }
 
   AppFlowyGroupItem parsedProductItem(ProductItemRes productItem) {
+    final String itemId = const Uuid().v4();
     return ParsedProductItemRes(
       groupTitle: productItem.groupTitle,
+      itemId: itemId,
       title: productItem.title,
       assignee: productItem.assignee,
       content: productItem.content,
@@ -78,14 +80,53 @@ class ProductController extends GetxController {
     ParsedProductItemRes? item,
     String? groupTitle,
   }) {
-    AppLogger.debug(groupTitle);
     showDialog(
       context: context,
       builder: (context) => ProductEditDialog(
         productItem: item,
         groupTitle: groupTitle,
         userList: userList,
+        onTapAddButton: (productItem) {
+          if (groupTitle != null) {
+            onAddItem(productItem);
+            return;
+          }
+          onUpdateItem(productItem);
+        },
       ),
+    );
+  }
+
+  void onAddItem(
+    ParsedProductItemRes productItem,
+  ) {
+    appFlowyBoardController.addGroupItem(
+      productItem.groupTitle,
+      productItem,
+    );
+  }
+
+  void onUpdateItem(
+    ParsedProductItemRes productItem,
+  ) {
+    final currentGroup = findCurrentGroup(
+      productItem.itemId,
+      productItem.groupTitle,
+    );
+
+    appFlowyBoardController.updateGroupItem(
+      currentGroup.id,
+      productItem,
+    );
+  }
+
+  // 현재 아이템이 실제로 위치한 그룹 찾기
+  AppFlowyGroupData findCurrentGroup(String itemId, String defaultGroupTitle) {
+    return appFlowyBoardController.groupDatas.firstWhere(
+      (group) => group.items
+          .any((item) => (item as ParsedProductItemRes).itemId == itemId),
+      orElse: () => appFlowyBoardController.groupDatas
+          .firstWhere((group) => group.id == defaultGroupTitle),
     );
   }
 }
