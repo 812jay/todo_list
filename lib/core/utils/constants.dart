@@ -8,5 +8,8 @@ class AppColors {
   static const cancelButtonFont = Color(0XFFEEEEEE);
   static const saveButtonBackground = Color(0XFF295F98);
   static const saveButtonFont = Color(0XFFEEEEEE);
+  static const deleteButtonBackground = Colors.transparent;
+  static const deleteButtonFont = Color(0XFFFF3300);
+  static const deleteButtonBorder = Color(0XFFFF3300);
   static const avatarBackgroud = Color(0XFF686D76);
 }

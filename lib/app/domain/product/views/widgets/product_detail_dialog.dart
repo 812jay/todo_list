@@ -9,12 +9,13 @@ import 'package:todo_list/core/utils/component/user_avatar.dart';
 import 'package:todo_list/core/utils/constants.dart';
 import 'package:uuid/uuid.dart';
 
-class ProductEditDialog extends StatefulWidget {
-  const ProductEditDialog({
+class ProductDetailDialog extends StatefulWidget {
+  const ProductDetailDialog({
     super.key,
     this.groupTitle,
     this.productItem,
     this.onTapAddButton,
+    this.onTapDeleteButton,
     this.userList = const [],
   });
   final String? groupTitle;
@@ -22,13 +23,17 @@ class ProductEditDialog extends StatefulWidget {
   final void Function(
     ParsedProductItemRes productItem,
   )? onTapAddButton;
+  final void Function({
+    required String groupId,
+    required String itemId,
+  })? onTapDeleteButton;
   final List<UserRes> userList;
 
   @override
-  State<ProductEditDialog> createState() => _ProductEditDialogState();
+  State<ProductDetailDialog> createState() => _ProductDetailDialogState();
 }
 
-class _ProductEditDialogState extends State<ProductEditDialog> {
+class _ProductDetailDialogState extends State<ProductDetailDialog> {
   final dropDownKey = GlobalKey<DropdownSearchState>();
   late final TextEditingController titleController;
   late final TextEditingController contentController;
@@ -132,32 +137,52 @@ class _ProductEditDialogState extends State<ProductEditDialog> {
         ),
       ),
       actions: [
-        DialogButton(
-          text: '취소',
-          backgroundColor: AppColors.cancelButtonBackground,
-          fontColor: AppColors.cancelButtonFont,
-          onTap: () => Get.back(),
-        ),
-        DialogButton(
-          text: '저장',
-          backgroundColor: AppColors.saveButtonBackground,
-          fontColor: AppColors.saveButtonFont,
-          onTap: () {
-            widget.onTapAddButton?.call(
-              ParsedProductItemRes(
-                itemId: widget.productItem?.id ?? const Uuid().v4(),
-                groupTitle: widget.groupTitle ??
-                    widget.productItem?.groupTitle ??
-                    '할 일',
-                title: titleController.text,
-                assignee: selectedUser,
-                content: contentController.text,
-                createdAt: DateTime.now(),
-                updatedAt: DateTime.now(),
+        Row(
+          children: [
+            if (widget.productItem != null)
+              DialogButton(
+                text: '삭제',
+                backgroundColor: AppColors.deleteButtonBackground,
+                fontColor: AppColors.deleteButtonFont,
+                borderColor: AppColors.deleteButtonBorder,
+                onTap: () {
+                  widget.onTapDeleteButton?.call(
+                    groupId: widget.productItem!.groupTitle,
+                    itemId: widget.productItem!.id,
+                  );
+                  Get.back();
+                },
               ),
-            );
-            Get.back();
-          },
+            const Spacer(),
+            DialogButton(
+              text: '취소',
+              backgroundColor: AppColors.cancelButtonBackground,
+              fontColor: AppColors.cancelButtonFont,
+              onTap: () => Get.back(),
+            ),
+            const SizedBox(width: 10),
+            DialogButton(
+              text: '저장',
+              backgroundColor: AppColors.saveButtonBackground,
+              fontColor: AppColors.saveButtonFont,
+              onTap: () {
+                widget.onTapAddButton?.call(
+                  ParsedProductItemRes(
+                    itemId: widget.productItem?.id ?? const Uuid().v4(),
+                    groupTitle: widget.groupTitle ??
+                        widget.productItem?.groupTitle ??
+                        '할 일',
+                    title: titleController.text,
+                    assignee: selectedUser,
+                    content: contentController.text,
+                    createdAt: DateTime.now(),
+                    updatedAt: DateTime.now(),
+                  ),
+                );
+                Get.back();
+              },
+            ),
+          ],
         ),
       ],
     );

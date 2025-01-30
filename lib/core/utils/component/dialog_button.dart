@@ -5,11 +5,13 @@ class DialogButton extends StatelessWidget {
     super.key,
     required this.text,
     this.onTap,
+    this.borderColor,
     this.backgroundColor,
     this.fontColor,
   });
   final String text;
   final GestureTapCallback? onTap;
+  final Color? borderColor;
   final Color? backgroundColor;
   final Color? fontColor;
 
@@ -21,6 +23,12 @@ class DialogButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: backgroundColor ?? Colors.grey,
           borderRadius: BorderRadius.circular(10),
+          border: borderColor != null
+              ? Border.all(
+                  color: borderColor!,
+                  width: 1,
+                )
+              : null,
         ),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
         child: Text(

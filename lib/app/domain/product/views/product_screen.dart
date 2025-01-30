@@ -29,7 +29,7 @@ class ProductScreen extends GetView<ProductController> {
           ),
           headerBuilder: (context, groupData) {
             return AppFlowyGroupHeader(
-              key: ObjectKey(groupData),
+              key: ValueKey(groupData),
               margin: const EdgeInsets.all(15),
               title: Text(groupData.headerData.groupName),
             );
@@ -37,7 +37,7 @@ class ProductScreen extends GetView<ProductController> {
           cardBuilder: (context, groupData, item) {
             final newItem = item as ParsedProductItemRes;
             return AppFlowyGroupCard(
-              key: ObjectKey(item),
+              key: ValueKey(item),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(2),
                 color: Colors.white,

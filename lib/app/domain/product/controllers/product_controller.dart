@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_list/app/domain/product/models/product/product.dart';
 import 'package:todo_list/app/domain/product/services/product_service.dart';
-import 'package:todo_list/app/domain/product/views/widgets/product_edit_dialog.dart';
+import 'package:todo_list/app/domain/product/views/widgets/product_detail_dialog.dart';
 import 'package:todo_list/app/domain/user/models/user.dart';
 import 'package:todo_list/app/domain/user/services/user_services.dart';
 import 'package:uuid/uuid.dart';
@@ -82,7 +82,7 @@ class ProductController extends GetxController {
   }) {
     showDialog(
       context: context,
-      builder: (context) => ProductEditDialog(
+      builder: (context) => ProductDetailDialog(
         productItem: item,
         groupTitle: groupTitle,
         userList: userList,
@@ -92,6 +92,12 @@ class ProductController extends GetxController {
             return;
           }
           onUpdateItem(productItem);
+        },
+        onTapDeleteButton: ({
+          required String groupId,
+          required String itemId,
+        }) {
+          onDeleteItem(groupId, itemId);
         },
       ),
     );
@@ -127,6 +133,16 @@ class ProductController extends GetxController {
           .any((item) => (item as ParsedProductItemRes).itemId == itemId),
       orElse: () => appFlowyBoardController.groupDatas
           .firstWhere((group) => group.id == defaultGroupTitle),
+    );
+  }
+
+  void onDeleteItem(
+    String groupId,
+    String itemId,
+  ) {
+    appFlowyBoardController.removeGroupItem(
+      groupId,
+      itemId,
     );
   }
 }
