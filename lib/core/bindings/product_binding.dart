@@ -7,7 +7,13 @@ class ProductBinding implements Bindings {
   @override
   void dependencies() {
     //controller
-    Get.lazyPut(() => ProductController(Get.find(), Get.find()), fenix: true);
+    Get.lazyPut(
+      () => ProductController(
+        productService: Get.find(),
+        userService: Get.find(),
+      ),
+      fenix: true,
+    );
     //service
     Get.lazyPut(() => UserService(), fenix: true);
     Get.lazyPut(() => ProductService(), fenix: true);

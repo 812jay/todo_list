@@ -8,7 +8,6 @@ class AppLogger {
       lineLength: 120, // 로그 라인 길이
       colors: true, // 색상 사용 여부
       printEmojis: true, // 이모지 사용 여부
-      printTime: true, // 시간 표시 여부
     ),
   );
 

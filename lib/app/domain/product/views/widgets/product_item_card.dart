@@ -10,6 +10,7 @@ class ProductItemCard extends StatelessWidget {
     required this.item,
     required this.onTap,
   });
+
   final ParsedProductItemRes item;
   final GestureTapCallback onTap;
 
@@ -17,41 +18,56 @@ class ProductItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: HoverContainer(
-        hoverColor: AppColors.productGroupItem,
-        padding: const EdgeInsets.all(10),
-        width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              item.title,
+      child: _buildCardItem(),
+    );
+  }
+
+  Widget _buildCardItem() {
+    return HoverContainer(
+      hoverColor: AppColors.productGroupItem,
+      padding: const EdgeInsets.all(10),
+      width: double.infinity,
+      child: _buildContent(),
+    );
+  }
+
+  // 카드의 메인 컨텐츠 컬럼
+  Widget _buildContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // 제품 타이틀
+        Text(item.title),
+        const SizedBox(height: 10),
+        _buildAssigneeRow(),
+      ],
+    );
+  }
+
+  // 담당자 정보를 표기
+  Widget _buildAssigneeRow() {
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          // 담당자 아바타
+          UserAvatar(
+            user: item.assignee,
+            size: 20,
+            isShowText: true,
+            fontSize: 13,
+          ),
+          const SizedBox(width: 5),
+          // 담당자 이름
+          Expanded(
+            child: Text(
+              item.assignee?.name ?? '담당자 없음',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  UserAvatar(
-                    user: item.assignee,
-                    size: 20,
-                    isShowText: true,
-                    fontSize: 13,
-                  ),
-                  const SizedBox(width: 5),
-                  Expanded(
-                    child: Text(
-                      item.assignee?.name ?? '담당자 없음',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

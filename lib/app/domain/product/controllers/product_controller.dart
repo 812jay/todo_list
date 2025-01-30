@@ -9,73 +9,75 @@ import 'package:todo_list/app/domain/user/services/user_services.dart';
 import 'package:uuid/uuid.dart';
 
 class ProductController extends GetxController {
-  ProductController(
-    this.productService,
-    this.userService,
-  );
+  ProductController({
+    required this.productService,
+    required this.userService,
+  });
+
+  // 외부 서비스 의존성
   final ProductService productService;
   final UserService userService;
-  List<UserRes> userList = [];
 
-  final AppFlowyBoardController appFlowyBoardController =
-      AppFlowyBoardController(
-    onMoveGroup: (fromGroupId, fromIndex, toGroupId, toIndex) =>
-        debugPrint('Move item from $fromIndex to $toIndex'),
-    onMoveGroupItem: (groupId, fromIndex, toIndex) =>
-        debugPrint('Move $groupId:$fromIndex to $groupId:$toIndex'),
-    onMoveGroupItemToGroup: (fromGroupId, fromIndex, toGroupId, toIndex) =>
-        debugPrint('Move $fromGroupId:$fromIndex to $toGroupId:$toIndex'),
-  );
+  // 상태 관리 변수
+  List<UserRes> userList = [];
+  final AppFlowyBoardController boardController = AppFlowyBoardController();
 
   @override
   void onInit() {
-    fetchProductList();
-    fetchUserList();
     super.onInit();
+    _initializeData();
   }
 
-  Future<void> fetchProductList() async {
-    final List<ProductRes> productList =
-        await productService.fetchProductList();
+  // 초기 데이터 로드
+  Future<void> _initializeData() async {
+    await Future.wait([
+      _fetchProducts(),
+      _fetchUsers(),
+    ]);
+  }
 
-    for (var product in productList) {
-      appFlowyBoardController.addGroup(
+  // 데이터 가져오기 관련 메서드
+  Future<void> _fetchProducts() async {
+    final products = await productService.fetchProductList();
+    _addProductsToBoard(products);
+  }
+
+  Future<void> _fetchUsers() async {
+    userList = await userService.fetchUserList();
+  }
+
+  // 보드 관리 관련 메서드
+  void _addProductsToBoard(List<ProductRes> products) {
+    for (final product in products) {
+      boardController.addGroup(
         AppFlowyGroupData(
           id: product.groupTitle,
           name: product.groupTitle,
-          items: parsedProductItemList(product.itemList),
+          items: _createProductItems(product.itemList),
         ),
       );
     }
   }
 
-  List<AppFlowyGroupItem> parsedProductItemList(
-    List<ProductItemRes>? itemList,
-  ) {
-    return (itemList ?? []).map((item) {
-      return parsedProductItem(item);
-    }).toList();
+  // 제품 아이템 생성 관련 메서드
+  List<AppFlowyGroupItem> _createProductItems(List<ProductItemRes>? items) {
+    return (items ?? []).map(_createProductItem).toList();
   }
 
-  AppFlowyGroupItem parsedProductItem(ProductItemRes productItem) {
-    final String itemId = const Uuid().v4();
+  AppFlowyGroupItem _createProductItem(ProductItemRes item) {
     return ParsedProductItemRes(
-      groupTitle: productItem.groupTitle,
-      itemId: itemId,
-      title: productItem.title,
-      assignee: productItem.assignee,
-      content: productItem.content,
-      createdAt: productItem.createdAt,
-      updatedAt: productItem.updatedAt,
+      groupTitle: item.groupTitle,
+      itemId: const Uuid().v4(),
+      title: item.title,
+      assignee: item.assignee,
+      content: item.content,
+      createdAt: item.createdAt,
+      updatedAt: item.updatedAt,
     ) as AppFlowyGroupItem;
   }
 
-  Future<void> fetchUserList() async {
-    final List<UserRes> userListData = await userService.fetchUserList();
-    userList = userListData;
-  }
-
-  void onTapItem(
+  // 아이템 다이얼로그 및 조작 관련 메서드
+  void showItemDialog(
     BuildContext context, {
     ParsedProductItemRes? item,
     String? groupTitle,
@@ -86,67 +88,54 @@ class ProductController extends GetxController {
         productItem: item,
         groupTitle: groupTitle,
         userList: userList,
-        onTapAddButton: (productItem) {
-          if (groupTitle != null) {
-            onAddItem(productItem);
-            return;
-          }
-          onUpdateItem(productItem);
-        },
-        onTapDeleteButton: ({
-          required String groupId,
-          required String itemId,
-        }) {
-          onDeleteItem(groupId, itemId);
-        },
+        onTapAddButton: _handleItemAddOrUpdate(groupTitle),
+        onTapDeleteButton: _handleItemDelete,
       ),
     );
   }
 
-  void onAddItem(
-    ParsedProductItemRes productItem,
-  ) {
-    appFlowyBoardController.addGroupItem(
-      productItem.groupTitle,
-      productItem,
+  // 아이템 추가/수정 핸들러
+  Function(ParsedProductItemRes) _handleItemAddOrUpdate(String? groupTitle) {
+    return (productItem) {
+      groupTitle != null ? _addItem(productItem) : _updateItem(productItem);
+    };
+  }
+
+  // 아이템 CRUD 작업
+  void _addItem(ParsedProductItemRes item) {
+    boardController.addGroupItem(item.groupTitle, item);
+  }
+
+  void _updateItem(ParsedProductItemRes item) {
+    final currentGroup = _findItemGroup(item.itemId, item.groupTitle);
+    boardController.updateGroupItem(currentGroup.id, item);
+  }
+
+  void _handleItemDelete({
+    required String groupId,
+    required String itemId,
+  }) {
+    final currentGroup = _findItemGroup(itemId, groupId);
+    boardController.removeGroupItem(currentGroup.id, itemId);
+  }
+
+  // 유틸리티 메서드: 아이템 그룹 찾기 관련
+  AppFlowyGroupData _findItemGroup(String itemId, String defaultGroupTitle) {
+    return boardController.groupDatas.firstWhere(
+      (group) => _hasItem(group, itemId),
+      orElse: () => _findGroupById(defaultGroupTitle),
     );
   }
 
-  void onUpdateItem(
-    ParsedProductItemRes productItem,
-  ) {
-    final currentGroup = findCurrentGroup(
-      productItem.itemId,
-      productItem.groupTitle,
-    );
-
-    appFlowyBoardController.updateGroupItem(
-      currentGroup.id,
-      productItem,
+  bool _hasItem(AppFlowyGroupData group, String itemId) {
+    return group.items.any(
+      (item) => (item as ParsedProductItemRes).itemId == itemId,
     );
   }
 
-  // 현재 아이템이 실제로 위치한 그룹 찾기
-  AppFlowyGroupData findCurrentGroup(String itemId, String defaultGroupTitle) {
-    return appFlowyBoardController.groupDatas.firstWhere(
-      (group) => group.items
-          .any((item) => (item as ParsedProductItemRes).itemId == itemId),
-      orElse: () => appFlowyBoardController.groupDatas
-          .firstWhere((group) => group.id == defaultGroupTitle),
-    );
-  }
-
-  void onDeleteItem(
-    String groupId,
-    String itemId,
-  ) {
-    final currentGroup = findCurrentGroup(
-      itemId,
-      groupId,
-    );
-    appFlowyBoardController.removeGroupItem(
-      currentGroup.id,
-      itemId,
+  AppFlowyGroupData _findGroupById(String groupId) {
+    return boardController.groupDatas.firstWhere(
+      (group) => group.id == groupId,
     );
   }
 }

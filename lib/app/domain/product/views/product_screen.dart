@@ -21,7 +21,7 @@ class ProductScreen extends GetView<ProductController> {
         height: 500,
         margin: const EdgeInsets.all(10),
         child: AppFlowyBoard(
-          controller: controller.appFlowyBoardController,
+          controller: controller.boardController,
           config: const AppFlowyBoardConfig(
             groupBackgroundColor: AppColors.productGroup,
             groupBodyPadding: EdgeInsets.symmetric(horizontal: 0),
@@ -44,14 +44,14 @@ class ProductScreen extends GetView<ProductController> {
               ),
               child: ProductItemCard(
                 item: newItem,
-                onTap: () => controller.onTapItem(context, item: item),
+                onTap: () => controller.showItemDialog(context, item: item),
               ),
             );
           },
           footerBuilder: (context, groupData) {
             return AppFlowyGroupFooter(
               onAddButtonClick: () {
-                controller.onTapItem(
+                controller.showItemDialog(
                   context,
                   groupTitle: groupData.id,
                 );
